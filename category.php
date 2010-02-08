@@ -211,9 +211,9 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
 					$link = get_permalink($p_category->post_id);
 					$class = '';
 					if ($post->ID == $p_category->post_id) {
-						$class = 'current';
+						$class = ' class="current"';
 					}
-					print "<li class='post_{$post->ID} page_catagory {$class}' ><a href='{$link}'> " . $inner_post->post_title . "</a></li>";
+					print "<li{$class}><a href=\"{$link}\">" . $inner_post->post_title . "</a></li>";
 				}
 			}
 			
