@@ -203,7 +203,7 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
 				echo "<p>" . $category->description . "</p>";
 			}
 
-			echo "</li><ul>";
+			echo "<ul>";
 
 			if (!$expend) {
 				foreach((array)$p_categories as $p_category) {
@@ -217,7 +217,7 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
 				}
 			}
 			
-			print "</ul>";
+			print "</ul></li>";
 		}
 	}
 
