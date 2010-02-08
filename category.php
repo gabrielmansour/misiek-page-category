@@ -190,9 +190,9 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
 				if ($post->ID == $category->post_id) {
 					$class = 'current';
 				}
-				echo "<li class='{$class}' ><a href='{$cat_post}'>$category->name</a> ";
+				echo "<li class=\"{$class}\"><h3><a href=\"{$cat_post}\">$category->name</a></h3>";
 			} else {
-				echo "<li>$category->name ";	
+				echo "<li><h3>$category->name</h3>";
 			}
 			
 			if ($total) {
