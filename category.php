@@ -72,7 +72,7 @@ function mpc_create_table($options, $table) {
   }
   $sql = rtrim($sql, ', ') . ")";
 
-  if($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE '%s'", $table) != $table) {
+  if($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE '%s'", $table)) != $table) {
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
   }
