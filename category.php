@@ -298,7 +298,7 @@ function mpc_all_get_page_categories($category_names = array(), $category_ids = 
 	return $wpdb->get_results("select * from " . MPC_PAGES_CATEGORIES . " inner join " . MPC_CATEGORIES . " on " . MPC_CATEGORIES . ".id = " . MPC_PAGES_CATEGORIES . ".category_id {$conditions} group by category_id ;");
 }
 
-function mpc_get_page_category($id, $order_by = "post_title") {
+function mpc_get_page_category($id, $order_by = "menu_order,post_title") {
 	global $wpdb;
 	return $wpdb->get_results("select * from " . MPC_PAGES_CATEGORIES . " inner join " . POSTS . " on " . POSTS . ".ID = " . MPC_PAGES_CATEGORIES . ".post_id where post_status = 'publish' and category_id = {$id} order by {$order_by}");
 }
