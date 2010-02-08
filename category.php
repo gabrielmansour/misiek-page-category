@@ -168,11 +168,16 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
 		$uncategorized = mpc_get_uncategorized_pages($catpages_in_uncat);
 	}
 
-	if(!$title) {
+	if($title===false) {
 		$title = 'Page Categories';
 	}
+	// Set title to NULL to hide it
+	if ($title===null)
+	  $title = '';
+	else 
+  	$title = '<h2 class="widgettitle">'.$title.'</h2>';
 
-	print '<h2 class="widgettitle">' . $title . '</h2><ul class="mpc_pages_categories">';
+	print $title . '<ul class="mpc_pages_categories">';
 
 	foreach((array)$categories as $category) {
 		$p_categories = mpc_get_page_category($category->category_id);
