@@ -222,13 +222,13 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
   }
 
   if ($uncategorized)  {
-    echo "<li>Uncategorized ";
+    echo "<li><h3>Uncategorized</h3>";
 
     if ($total) {
       echo "(" . count($uncategorized). ")";
     }
 
-    echo "</li><ul>";
+    echo "<ul>";
 
     if (!$expend) {
 
@@ -239,14 +239,14 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
 
         $class = '';
         if ($post->ID == $uncat_post->id) {
-          $class = 'current';
+          $class = ' class="current"';
         }
 
-        print "<li class='post_{$cat_post->ID} page_catagory {$class}' ><a href='{$link}' >" . $cat_post->post_title . "</a></li>";
+        print "<li{$class}><a href=\"{$link}\">" . $cat_post->post_title . "</a></li>";
       }
 
     }
-    print "</ul>";
+    print "</ul></li>";
   }
 
   print "</ul>";
