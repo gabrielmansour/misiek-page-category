@@ -300,7 +300,7 @@ function mpc_all_get_page_categories($category_names = array(), $category_ids = 
 
 function mpc_get_page_category($id, $order_by = "menu_order,post_title") {
   global $wpdb;
-  return $wpdb->get_results($wpdb->prepare("select * from " . MPC_PAGES_CATEGORIES . " inner join " . POSTS . " on " . POSTS . ".ID = " . MPC_PAGES_CATEGORIES . ".post_id where post_status = 'publish' and category_id = %d order by %s"), $id, $order_by));
+  return $wpdb->get_results($wpdb->prepare("select * from " . MPC_PAGES_CATEGORIES . " inner join " . POSTS . " on " . POSTS . ".ID = " . MPC_PAGES_CATEGORIES . ".post_id where post_status = 'publish' and category_id = %d order by %s", $id, $order_by));
 }
 
 function mpc_get_category_page_number($id) {
