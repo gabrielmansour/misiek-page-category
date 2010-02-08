@@ -1,5 +1,5 @@
 === Misiek Page Category ===
-Contributors: Michal Augustyniak
+Contributors: Michal Augustyniak, Gabriel Mansour
 Donate link: http://maugustyniak.com/misiek-page-category
 Tags:page, category, categories
 Requires at least:2.7.1
