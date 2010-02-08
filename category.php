@@ -1,10 +1,10 @@
 <?php
 /*
- Plugin Name: Misiek Page Category
+ Plugin Name: Misiek Page Category [MODIFIED]
  Version: 2.1
  Plugin URI: http://wordpress.org/extend/plugins/misiek-page-category/
  Description: Creates categories for pages and displays them as widget
- Author: Michal Augustyniak
+ Author: Michal Augustyniak; modified by Gabriel Mansour
  Author URI: maugustyniak.com
 
  Copyright YEAR  PLUGIN_AUTHOR_NAME  (email : misiek303@gmail.com)
@@ -98,7 +98,7 @@ function mpc_attribute_box() {
 			$checked = "";
 		}
 
-		print "<input {$checked} type='checkbox' name='categories[]' value='{$category->id}' /> " . $category->name . "<br/>";
+		print "<label><input {$checked} type='checkbox' name='categories[]' value='{$category->id}' /> " . $category->name . "</label><br/>";
 	}
 }
 
