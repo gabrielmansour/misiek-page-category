@@ -45,7 +45,7 @@ In order to do it you need to enable php in your page body by exex-php plugin, t
 
 `mpc_widget_categories($title, $total, $expend, $category_names, $category_ids);`
 
-**$title** variable displays title name of page category and must be false or string. 
+**$title** variable displays title name of page category and must be false or string, or null to hide the title completely.
 
 **$total** variable, if set true it displays total pages in (n) next to the category name. Must be true or false.
 
