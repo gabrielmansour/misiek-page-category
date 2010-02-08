@@ -66,7 +66,7 @@
 			<td class="posts column-posts num">( <?php print mpc_get_category_page_number($category->id)?> )</td>
 		</tr>
 	
-	<? endforeach;?>
+	<?php endforeach; ?>
 	</tbody>
 </table>
 
