@@ -72,7 +72,7 @@ function mpc_create_table($options, $table) {
 	}
 	$sql = rtrim($sql, ', ') . ")";
 
-	if($wpdb->get_var("SHOW TABLES LIKE '" . $table . "'") != $table) {
+	if($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE '%s'", $table) != $table) {
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
@@ -92,7 +92,7 @@ function mpc_attribute_box() {
 	$categories = mpc_get_categories();
 
 	foreach((array)$categories as $category) {
-		if ($wpdb->get_results("select * from " . MPC_PAGES_CATEGORIES . " where category_id = '{$category->id}' and post_id = '{$_GET['post']}'",'ARRAY_A')) {
+		if ($wpdb->get_results($wpdb->prepare("select * from " . MPC_PAGES_CATEGORIES . " where category_id = '%d' and post_id = '%d'", $category->id, $_GET['post']),'ARRAY_A')) {
 			$checked = "checked=''";
 		} else {
 			$checked = "";
@@ -113,7 +113,7 @@ function mpc_categories_page() {
 			$post_id = null;
 		}
 
-		$wpdb->query("insert into " . MPC_CATEGORIES . " (name, description, parent_id, post_id) values ('{$_POST['cat_name']}','{$_POST['cat_description']}','{$_POST['parent_id']}', '{$post_id}')");
+		$wpdb->query($wpdb->prepare("insert into " . MPC_CATEGORIES . " (name, description, parent_id, post_id) values ('%s','%s','%d', '%d')"), $_POST['cat_name'], $_POST['cat_description'], $_POST['parent_id'], $post_id);
 		
 	} elseif ($_POST['action'] == 'delete') {
 		
@@ -125,7 +125,7 @@ function mpc_categories_page() {
 		
 		if (isset($_POST['cat_post_del'])) {
 			
-			$category_edit = $wpdb->get_row("select * from " . MPC_CATEGORIES . " where id = {$_GET['id']}");
+			$category_edit = $wpdb->get_row($wpdb->prepare("select * from " . MPC_CATEGORIES . " where id = %d", $_GET['id']));
 			
 			if (wp_delete_post($category_edit->post_id)) {
 				$post_id = 0;	
@@ -135,12 +135,12 @@ function mpc_categories_page() {
 			$post_id = mpc_create_page($_POST['cat_name']);
 		}
 		
-		$wpdb->query("update " . MPC_CATEGORIES . " set name = '{$_POST['cat_name']}', description = '{$_POST['cat_description']}', post_id = '{$post_id}' where id = " . $_GET['id']);
+		$wpdb->query($wpdb->prepare("update " . MPC_CATEGORIES . " set name = '%s', description = '%s', post_id = '%d' where id = %d"), $_POST['cat_name'], $_POST['cat_description'], $post_id, $_GET['id']);
 		echo '<SCRIPT language="JavaScript">window.location="/wp-admin/edit-pages.php?page=add-category"</SCRIPT>';
 		
 	} elseif ($_GET['edit'] == 'true') {
 		
-		$category_edit = $wpdb->get_row("select * from " . MPC_CATEGORIES . " where id = {$_GET['id']}");
+		$category_edit = $wpdb->get_row($wpdb->prepare("select * from " . MPC_CATEGORIES . " where id = %d"), $_GET['id']);
 		
 	}
 
@@ -154,7 +154,7 @@ function mpc_hook_post_save($ID) {
 	mpc_delete_all_pages($_POST['post_ID']);
 
 	foreach((array)$_POST['categories'] as $category_id) {
-		$wpdb->query("insert into " . MPC_PAGES_CATEGORIES . " (post_id, category_id) values ('{$_POST['post_ID']}','{$category_id}')");
+		$wpdb->query($wpdb->prepare("insert into " . MPC_PAGES_CATEGORIES . " (post_id, category_id) values ('%d','%d')"), $_POST['post_ID'], $category_id);
 	}
 }
 
@@ -254,7 +254,7 @@ function mpc_widget_categories($title = false, $total = false, $expend = true, $
 
 function mpc_delete_category($id) {
 	global $wpdb;
-	return $wpdb->query("delete from  " . MPC_CATEGORIES . " where id = '{$id}'");
+	return $wpdb->query($wpdb->prepare("delete from  " . MPC_CATEGORIES . " where id = '%d'"), $id);
 }
 
 function mpc_get_categories() {
@@ -264,13 +264,13 @@ function mpc_get_categories() {
 
 function mpc_delete_all_pages($id) {
 	global $wpdb;
-	return $wpdb->query("delete from  " . MPC_PAGES_CATEGORIES . " where post_id = '{$id}'");
+	return $wpdb->query($wpdb->prepare("delete from  " . MPC_PAGES_CATEGORIES . " where post_id = '%d'"), $id);
 }
 
 
 function mpc_get_childrens_for($category_id) {
 	global $wpdb;
-	$categories = $wpdb->get_results("select * from " . MPC_CATEGORIES  . " where parent_id = " . $category_id);
+	$categories = $wpdb->get_results($wpdb->prepare("select * from " . MPC_CATEGORIES  . " where parent_id = %d"), $category_id);
 	foreach($categories as $category) {
 		$childrens[] = $category->id;
 	}
@@ -284,15 +284,15 @@ function mpc_all_get_page_categories($category_names = array(), $category_ids = 
 	$conditions = '';
 
 	foreach($category_names as $name) {
-		$conditions[] = MPC_CATEGORIES . ".name = '".trim($name)."'";
+		$conditions[] = $wpdb->prepare(MPC_CATEGORIES . ".name = '%s", trim($name));
 	}
 
 	foreach($category_ids as $id) {
-		$conditions[] = MPC_CATEGORIES . ".id = '".$id."'";
+		$conditions[] = $wpdb->prepare(MPC_CATEGORIES . ".id = '%d'", $id);
 	}
 	
 	if ($category_names || $category_ids || $cascade) {
-		 $conditions = "WHERE (" . implode(' or ', $conditions) . ")";
+		 $conditions = "WHERE (" . join(' or ', $conditions) . ")";
 	}
 	
 	return $wpdb->get_results("select * from " . MPC_PAGES_CATEGORIES . " inner join " . MPC_CATEGORIES . " on " . MPC_CATEGORIES . ".id = " . MPC_PAGES_CATEGORIES . ".category_id {$conditions} group by category_id ;");
@@ -300,12 +300,12 @@ function mpc_all_get_page_categories($category_names = array(), $category_ids = 
 
 function mpc_get_page_category($id, $order_by = "menu_order,post_title") {
 	global $wpdb;
-	return $wpdb->get_results("select * from " . MPC_PAGES_CATEGORIES . " inner join " . POSTS . " on " . POSTS . ".ID = " . MPC_PAGES_CATEGORIES . ".post_id where post_status = 'publish' and category_id = {$id} order by {$order_by}");
+	return $wpdb->get_results($wpdb->prepare("select * from " . MPC_PAGES_CATEGORIES . " inner join " . POSTS . " on " . POSTS . ".ID = " . MPC_PAGES_CATEGORIES . ".post_id where post_status = 'publish' and category_id = %d order by %s"), $id, $order_by));
 }
 
 function mpc_get_category_page_number($id) {
 	global $wpdb;
-	$data = $wpdb->get_row("select count(" . MPC_PAGES_CATEGORIES . ".id) as num from " . MPC_PAGES_CATEGORIES . " inner join " . POSTS . " on " . POSTS . ".ID = " . MPC_PAGES_CATEGORIES . ".post_id where category_id = {$id};",'ARRAY_A');
+	$data = $wpdb->get_row($wpdb->prepare("select count(" . MPC_PAGES_CATEGORIES . ".id) as num from " . MPC_PAGES_CATEGORIES . " inner join " . POSTS . " on " . POSTS . ".ID = " . MPC_PAGES_CATEGORIES . ".post_id where category_id = %d;", $id),'ARRAY_A');
 	return $data['num'];
 }
 
@@ -313,7 +313,7 @@ function mpc_get_uncategorized_pages($catpages_in_uncat = false) {
 	global $wpdb;
 	
 	if (!$catpages_in_uncat) {
-		$conditions = "and " . POSTS . ".id not in (select post_id from wp_mpc_categories)";	
+		$conditions = "and " . POSTS . ".id not in (select post_id from wp_mpc_categories)";
 	}
 	
 	return $wpdb->get_results("select " . POSTS . ".id as id from " . POSTS . " left join " . MPC_PAGES_CATEGORIES . " on " . POSTS . ".id = " . MPC_PAGES_CATEGORIES . ".post_id where post_type = 'page' and post_status = 'publish' and " . MPC_PAGES_CATEGORIES . ".id is NULL {$conditions} group by " . POSTS . ".id");
@@ -323,7 +323,7 @@ function mpc_get_category_name($id) {
 	if ($id > 0) {
 		global $wpdb;
 
-		$category = $wpdb->get_row("select * from " . MPC_CATEGORIES  . " where id = " . $id);
+		$category = $wpdb->get_row($wpdb->prepare("select * from " . MPC_CATEGORIES  . " where id = %d", $id));
 		if ($category) {
 			$link = get_permalink($category->post_id);
 				
