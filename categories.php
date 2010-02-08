@@ -15,8 +15,8 @@
 
 <div class="alignleft actions">
 <select name="action">
-	<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
-	<option value="delete"><?php _e('Delete'); ?></option>
+  <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
+  <option value="delete"><?php _e('Delete'); ?></option>
 </select> 
 
 <input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" /></div>
@@ -27,54 +27,54 @@
 <div class="clear"></div>
 
 <table class="widefat fixed" cellspacing="0">
-	<thead>
-		<tr>
-			<th id="cb" class="manage-column column-cb check-column" style="" scope="col"><input type="checkbox" class='checkall'/></th>
-			<th id="name" class="manage-column column-name" style="" scope="col">Name</th>
-			<th id="description" class="manage-column column-description" style="" scope="col">Description</th>
-			<th id="posts" class="manage-column column-posts num" style="" scope="col">Pages</th>
-		</tr>
-	</thead>
+  <thead>
+    <tr>
+      <th id="cb" class="manage-column column-cb check-column" style="" scope="col"><input type="checkbox" class='checkall'/></th>
+      <th id="name" class="manage-column column-name" style="" scope="col">Name</th>
+      <th id="description" class="manage-column column-description" style="" scope="col">Description</th>
+      <th id="posts" class="manage-column column-posts num" style="" scope="col">Pages</th>
+    </tr>
+  </thead>
 
-	<tfoot>
-		<tr>
-			<th id="cb" class="manage-column column-cb check-column" style="" scope="col"><input type="checkbox" class='checkall'/></th>
-			<th id="name" class="manage-column column-name" style="" scope="col">Name</th>
-			<th id="description" class="manage-column column-description" style="" scope="col">Description</th>
-			<th id="posts" class="manage-column column-posts num" style="" scope="col">Pages</th>
-		</tr>
-	</tfoot>
+  <tfoot>
+    <tr>
+      <th id="cb" class="manage-column column-cb check-column" style="" scope="col"><input type="checkbox" class='checkall'/></th>
+      <th id="name" class="manage-column column-name" style="" scope="col">Name</th>
+      <th id="description" class="manage-column column-description" style="" scope="col">Description</th>
+      <th id="posts" class="manage-column column-posts num" style="" scope="col">Pages</th>
+    </tr>
+  </tfoot>
 
-	<tbody id="the-list" class="list:cat">
-	<?php foreach((array)$categories as $category):?>
-		<?php if ($i == 1) {$class = 'alternate';$i=0;} else {$class = '';$i++;} ?>
-		<tr id="cat-<?php print $category->id?>" class="iedit <?php print $class ?>">
-			<th  class="check-column" scope="row"><input type="checkbox" name='cat[]' value="<?php print $category->id?>"/></th>
-			<td class="name column-name">
-				<?php print mpc_get_category_name($category->id) ?>
-				<div class="row-actions">
-				<span class="edit" id='<?php print $category->id?>'>
-					
-					<span><a class="editinline" href="?page=add-category&edit=true&id=<?php print $category->id?>">Edit</a></span>
-					
-				</div>
+  <tbody id="the-list" class="list:cat">
+  <?php foreach((array)$categories as $category):?>
+    <?php if ($i == 1) {$class = 'alternate';$i=0;} else {$class = '';$i++;} ?>
+    <tr id="cat-<?php print $category->id?>" class="iedit <?php print $class ?>">
+      <th  class="check-column" scope="row"><input type="checkbox" name='cat[]' value="<?php print $category->id?>"/></th>
+      <td class="name column-name">
+        <?php print mpc_get_category_name($category->id) ?>
+        <div class="row-actions">
+        <span class="edit" id='<?php print $category->id?>'>
+          
+          <span><a class="editinline" href="?page=add-category&edit=true&id=<?php print $category->id?>">Edit</a></span>
+          
+        </div>
 
-				
-			</td>
-			<td class="description column-description"><?php print $category->description ?></td>
-			
-			<td class="posts column-posts num">( <?php print mpc_get_category_page_number($category->id)?> )</td>
-		</tr>
-	
-	<?php endforeach; ?>
-	</tbody>
+        
+      </td>
+      <td class="description column-description"><?php print $category->description ?></td>
+      
+      <td class="posts column-posts num">( <?php print mpc_get_category_page_number($category->id)?> )</td>
+    </tr>
+  
+  <?php endforeach; ?>
+  </tbody>
 </table>
 
 <div class="tablenav">
 
 <div class="alignleft actions"><select name="action2">
-	<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
-	<option value="delete"><?php _e('Delete'); ?></option>
+  <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
+  <option value="delete"><?php _e('Delete'); ?></option>
 </select> <input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" /></div>
 
 <br class="clear" />
@@ -100,11 +100,11 @@
 <?php 
 
 if ($_GET['edit'] == 'true') {
-	$action = 'Edit';
-	echo '<input name="edit_category" value="true"  type="hidden">';
+  $action = 'Edit';
+  echo '<input name="edit_category" value="true"  type="hidden">';
 } else {
-	$action = 'Add';
-	echo '<input name="add_category" value="true"  type="hidden">';
+  $action = 'Add';
+  echo '<input name="add_category" value="true"  type="hidden">';
 }
 
 ?>
